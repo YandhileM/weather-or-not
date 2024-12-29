@@ -1,7 +1,9 @@
 <script setup>
 import { reactive } from 'vue'
 import weatherApiService from '@/utils/weatherApiService'
+import { useBreakpoints } from '@/composables/useBreakpoints'
 
+const { isMobile } = useBreakpoints()
 const emit = defineEmits(['place-data'])
 const searchTerm = reactive({
     query: ``,
@@ -39,13 +41,13 @@ const getWeather = async (id) => {
 </script>
 
 <template>
-    <div>
+    <div class="w-full max-w-2xl mx-auto">
         <!-- search field -->
         <form>
             <div class="bg-white border border-indigo-600/30 rounded-lg shadow-lg flex items-center">
-                <i class="fa-solid fa-magnifying-glass p-2 text-indigo-600"></i>
+                <i class="fa-solid fa-magnifying-glass p-2 md:p-3 text-indigo-600"></i>
                 <input type="text" placeholder="Search for a place"
-                    class="rounded-r-lg p-2 border-0 outline-0 focus:ring-2 focus:ring-indigo-600 ring-inset w-full"
+                    class="rounded-r-lg p-2 md:p-3 text-sm md:text-base border-0 outline-0 focus:ring-2 focus:ring-indigo-600 ring-inset w-full"
                     v-model="searchTerm.query" @input="handleSearch" />
             </div>
         </form>
@@ -54,7 +56,7 @@ const getWeather = async (id) => {
             <div v-if="searchTerm.results.length !== null">
                 <div v-for="place in searchTerm.results" :key="place.id">
                     <button @click="getWeather(place.id)"
-                        class="px-3 my-2 hover:text-indigo-600 hover:font-bold w-full text-left">
+                        class="px-3 py-2 md:py-3 text-sm md:text-base hover:text-indigo-600 hover:font-bold w-full text-left">
                         {{ place.name }}, {{ place.region }}, {{ place.country }}
                     </button>
                 </div>
