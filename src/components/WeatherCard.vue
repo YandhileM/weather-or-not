@@ -23,13 +23,30 @@ const formatHour = (timeString) => {
     return hour === 0 ? '12 AM' : hour === 12 ? '12 PM' : hour > 12 ? `${hour - 12} PM` : `${hour} AM`
 }
 
+// Get remaining hours for today
+const getRemainingHours = computed(() => {
+    const currentHour = new Date(props.place.location.localtime).getHours()
+    const allHours = props.place.forecast.forecastday[0].hour
+
+    // Filter hours that are upcoming today
+    return allHours.filter(hour => {
+        const hourTime = new Date(hour.time).getHours()
+        return hourTime > currentHour
+    })
+})
+
 // Computed property to get visible hours
 const visibleHours = computed(() => {
-    const hours = props.place.forecast.forecastday[0].hour
+    const hours = getRemainingHours.value
     if (isMobile.value) {
         return hours.slice(0, 6)
     }
     return showAllHours.value ? hours : hours.slice(0, 6)
+})
+
+// Determine if we should show the "Show More" button
+const showMoreButton = computed(() => {
+    return !isMobile.value && getRemainingHours.value.length > 6
 })
 </script>
 
@@ -63,8 +80,8 @@ const visibleHours = computed(() => {
         <BorderLine />
 
         <!-- Hourly forecast -->
-        <div class="mb-4">
-            <h3 class="text-sm md:text-base mb-2">Hourly Forecast</h3>
+        <div v-if="getRemainingHours.length > 0" class="mb-4">
+            <h3 class="text-sm md:text-base mb-2">Remaining Hours Today</h3>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
                 <div v-for="hour in visibleHours" :key="hour.time"
                     class="flex flex-col items-center bg-white/10 rounded-lg p-2">
@@ -74,7 +91,7 @@ const visibleHours = computed(() => {
                     <span class="text-xs text-white/80">{{ hour.chance_of_rain }}%</span>
                 </div>
             </div>
-            <button v-if="!isMobile" @click="showAllHours = !showAllHours"
+            <button v-if="showMoreButton" @click="showAllHours = !showAllHours"
                 class="mt-4 w-full text-center text-sm bg-white/10 hover:bg-white/20 rounded-lg py-2 transition-colors">
                 {{ showAllHours ? 'Show Less' : 'Show More Hours' }}
             </button>
