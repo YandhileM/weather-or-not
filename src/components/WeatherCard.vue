@@ -1,12 +1,12 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import BorderLine from './BorderLine.vue'
 import WeatherForcastDay from './WeatherForcastDay.vue'
 import WeatherInfo from './WeatherInfo.vue'
 import { useBreakpoints } from '@/composables/useBreakpoints'
 
 const { isMobile } = useBreakpoints()
-defineProps({
+const props = defineProps({
     place: Object,
 })
 const emit = defineEmits(['delete-place'])
@@ -15,6 +15,22 @@ const removePlace = (placeName) => {
     showDetail.value = false
 }
 const showDetail = ref(false)
+const showAllHours = ref(false)
+
+// Helper function to format hour
+const formatHour = (timeString) => {
+    const hour = new Date(timeString).getHours()
+    return hour === 0 ? '12 AM' : hour === 12 ? '12 PM' : hour > 12 ? `${hour - 12} PM` : `${hour} AM`
+}
+
+// Computed property to get visible hours
+const visibleHours = computed(() => {
+    const hours = props.place.forecast.forecastday[0].hour
+    if (isMobile.value) {
+        return hours.slice(0, 6)
+    }
+    return showAllHours.value ? hours : hours.slice(0, 6)
+})
 </script>
 
 <template>
@@ -30,7 +46,7 @@ const showDetail = ref(false)
                 <i class="fa-solid fa-clock text-sm md:text-base"></i>
                 <h1 class="text-xl md:text-2xl lg:text-3xl">
                     {{ new Date(place.location.localtime).getHours() }}:{{
-                        new Date(place.location.localtime).getMinutes()
+                        new Date(place.location.localtime).getMinutes().toString().padStart(2, '0')
                     }}
                 </h1>
             </div>
@@ -42,6 +58,26 @@ const showDetail = ref(false)
                 class="mx-auto -mb-6 md:-mb-8 lg:-mb-10" />
             <h1 class="text-6xl md:text-7xl lg:text-9xl mb-2">{{ Math.round(place.current.temp_c) }}&deg;</h1>
             <p class="text-lg md:text-xl lg:text-2xl">{{ place.current.condition.text }}</p>
+        </div>
+
+        <BorderLine />
+
+        <!-- Hourly forecast -->
+        <div class="mb-4">
+            <h3 class="text-sm md:text-base mb-2">Hourly Forecast</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+                <div v-for="hour in visibleHours" :key="hour.time"
+                    class="flex flex-col items-center bg-white/10 rounded-lg p-2">
+                    <span class="text-sm font-medium mb-1">{{ formatHour(hour.time) }}</span>
+                    <img :src="hour.condition.icon" alt="weather icon" class="w-8 h-8 mb-1" />
+                    <span class="text-lg font-bold">{{ Math.round(hour.temp_c) }}°</span>
+                    <span class="text-xs text-white/80">{{ hour.chance_of_rain }}%</span>
+                </div>
+            </div>
+            <button v-if="!isMobile" @click="showAllHours = !showAllHours"
+                class="mt-4 w-full text-center text-sm bg-white/10 hover:bg-white/20 rounded-lg py-2 transition-colors">
+                {{ showAllHours ? 'Show Less' : 'Show More Hours' }}
+            </button>
         </div>
 
         <BorderLine />
