@@ -1,5 +1,5 @@
 <script setup>
-import { useBreakpoints } from '@/composables/useBreakpoints'
+// import { useBreakpoints } from '@/composables/useBreakpoints'
 
 // const { isMobile } = useBreakpoints()
 defineProps({ place: Object })
