@@ -3,7 +3,7 @@ import { reactive } from 'vue'
 import weatherApiService from '@/utils/weatherApiService'
 import { useBreakpoints } from '@/composables/useBreakpoints'
 
-const { isMobile } = useBreakpoints()
+// const { isMobile } = useBreakpoints()
 const emit = defineEmits(['place-data'])
 const searchTerm = reactive({
     query: ``,
