@@ -1,4 +1,4 @@
-name: Vue.js CI
+name: weather-or-not CI
 
 on:
   push:
