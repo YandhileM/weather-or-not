@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "generate-pwa-assets": "pwa-assets-generator --preset minimal public/logo.svg"
   },
   "dependencies": {
     "axios": "^1.7.9",
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.14.0",
+    "@vite-pwa/assets-generator": "^0.2.6",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/eslint-config-prettier": "^10.1.0",
     "autoprefixer": "^10.4.20",
@@ -25,6 +27,7 @@
     "prettier": "^3.3.3",
     "tailwindcss": "^3.4.17",
     "vite": "^6.0.5",
+    "vite-plugin-pwa": "^0.21.1",
     "vite-plugin-vue-devtools": "^7.6.8"
   }
 }
