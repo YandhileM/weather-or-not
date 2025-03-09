@@ -3,7 +3,7 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "co.za.softidoc.digitaljuice.twa",
+      "package_name": "app.netlify.weatherhereandthere.twa",
       "sha256_cert_fingerprints": [
         "B3:48:60:B3:DB:D3:C9:D5:60:35:2E:18:6C:CB:B6:BA:78:18:73:3E:EF:93:8B:28:48:22:42:A0:F1:B5:E7:48"
       ]
