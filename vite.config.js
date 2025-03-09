@@ -14,9 +14,11 @@ export default defineConfig({
       injectRegister: 'auto', // Automatically include the service worker registration code in the application entry point
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
-        name: 'Vite PWA',
-        short_name: 'PWA',
-        description: 'Description of your app',
+        name: 'Weather here and there',
+        short_name: 'WHAT',
+        description: 'A simple weather app',
+        start_url: '/',
+        display: 'standalone',
         theme_color: '#ffffff',
         icons: [
           {
