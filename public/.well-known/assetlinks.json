@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "co.za.softidoc.digitaljuice.twa",
+      "sha256_cert_fingerprints": [
+        "8B:81:4B:30:A4:4A:1B:70:BB:7C:27:BB:49:67:7C:E1:77:76:62:E5:CE:12:42:35:4C:2F:B8:1D:4E:6A:E6:E9"
+      ]
+    }
+  }
+]
