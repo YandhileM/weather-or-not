@@ -9,3 +9,12 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[headers]]
+  for = "/.well-known/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+
+# This ensures dot files aren't ignored
+[build.processing]
+  skip_processing = false
