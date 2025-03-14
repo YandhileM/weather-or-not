@@ -10,12 +10,32 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
-      registerType: 'autoUpdate', // Automatically update the service worker
-      injectRegister: 'auto', // Automatically include the service worker registration code in the application entry point
+      // registerType: 'autoUpdate', // Automatically update the service worker
+      // injectRegister: 'auto', // Automatically include the service worker registration code in the application entry point
+      strategies: 'injectManifest',
+      injectManifest: {
+        swSrc: 'public/sw.js',
+        swDest: 'dist/sw.js',
+        // globDirectory: 'dist',
+        globPatterns: [
+          // JavaScript and CSS files
+          '**/*.{js,css}',
+          // HTML files
+          '**/*.html',
+          // Static assets
+          'assets/**/*.{png,jpg,jpeg,gif,svg,webp,ico}',
+          // Fonts - adjust based on your Vuetify setup
+          // '@fontsource/**/*.{woff,woff2}',
+          // Vuetify specific - these paths might need adjustment
+          // '**/vuetify.*.{js,css}',
+          // JSON files
+          // '**/*.json',
+        ],
+      },
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
       manifest: {
         name: 'Weather here and there',
-        short_name: 'WHAT',
+        short_name: 'WHATS',
         description: 'A simple weather app',
         start_url: '/',
         display: 'standalone',
